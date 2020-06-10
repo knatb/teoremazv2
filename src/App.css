@@ -36,3 +36,38 @@
     transform: rotate(360deg);
   }
 }
+
+::-webkit-scrollbar {
+  width: 10px;     /* Tamaño del scroll en vertical */
+  height: 1px;    /* Tamaño del scroll en horizontal */
+  transition: width linear;
+}
+
+::-webkit-scrollbar:hover {
+  width: 15px;
+  transition: width linear;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6770f;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d38d41;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #ff8500;
+}
+
+::-webkit-scrollbar-track {
+  background: #413c3c;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-track:hover,
+::-webkit-scrollbar-track:active {
+  background: #413c3c;
+}
