@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
-import PaymentMethod from '../Pages/PaymentMethod';
 import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,14 +46,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ComplexGrid(props) {
   const classes = useStyles();
-
+  var cursos = '9b9f845d-1690-44c1-80d9-db36c7785c10'
+  var texto = ''
   const{
     imageurl,
     name,
     description, 
     duracion, 
-    costo
+    costo,
+    id
   } = props;
+
+    if (id === cursos) {
+      texto = 'Comprado';
+    }
+    else {
+      texto = 'Comprar'
+    }
 
   return (
     <div className={classes.root}>
@@ -83,8 +91,13 @@ export default function ComplexGrid(props) {
               </Grid>
             </Grid>
             <Grid item>              
-               <Button variant="contained" className={classes.button} component={NavLink} to="/payment">
-                  Comprar
+               <Button id={id} variant="contained" className={classes.button} component={NavLink} to="/payment">
+                  {texto}
+                  {(() => {
+                      if (texto === 'comprado') {
+                        document.getElementById(id).disabled = true; 
+                      }
+                  })()}
               </Button>
             </Grid>
           </Grid>

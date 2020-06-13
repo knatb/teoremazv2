@@ -1,7 +1,11 @@
-import React from 'react';
-// Rerdux
-import { useDispatch } from 'react-redux';
-import { resetUserSearch } from '../Actions/user';
+import React, { useState, useEffect } from 'react';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { searchUser } from '../Actions/user';
+import qs from 'query-string';
+import _ from 'lodash';
+// Page routing Redirection
+import { useHistory } from 'react-router-dom';
 // Components
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -15,8 +19,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
 import { NavLink } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 //https://stackoverflow.com/questions/52911169/how-to-change-the-border-color-of-material-ui-textfield
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
     background: 'white',
     padding: "8px",
     borderRadius: "5px",
-    backgroundColor: '#ffffffc7'
+    backgroundColor: '#ffffffc7',
+    margin: '20px 0px 20px 0px'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -46,75 +51,110 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     color: 'white'
+  },
+  errorMsg: {
+    color: '#b82204'
+  },
+  loadingContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    width: '60%'
   }
 }));
 
 export default function SignIn() {
   const classes = useStyles();
+  let history = useHistory();
 
+  const user = useSelector((state) => _.get(state, "user.results"));
+  const loading = useSelector((state) => _.get(state, "user.loading"));
+
+  useEffect(() => {
+    if(user){
+      history.push('/account');
+    }
+  });
+  // Datos del Control
+  const [txtUserN, setTxtUserN] = useState("");
+  const [txtPass, setTxtPass] = useState("");
+  
   const dispatch = useDispatch();
-  const handleLogin = () => dispatch(resetUserSearch());
+
+  const handleLogin = () => dispatch(searchUser({
+    username: txtUserN,
+    password: txtPass
+  }));
 
   return (
     <Grid>
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          INICIAR SESIÓN
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Nombre de Usuario"
-            name="username"
-            autoComplete="username"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Contraseña"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="#D6770F" />}
-            label="Recordarme"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="#D6770F"
-            className={classes.submit}
-          >
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             INICIAR SESIÓN
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                ¿Olvidaste la contraseña?
-              </Link>
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              value={txtUserN}
+              name="username"
+              autoComplete="username"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Nombre de Usuario"
+              id="username"
+              autoFocus
+              onChange={(e) => {
+                setTxtUserN(e.target.value);
+              }}
+            />
+            <TextField
+              value={txtPass}
+              name="password"
+              autoComplete="current-password"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Contraseña"
+              type="password"
+              id="password"
+              onChange={(e) => {
+                setTxtPass(e.target.value);
+              }}
+            />
+            {/* {<FormControlLabel
+              control={<Checkbox value="remember"/>}
+              label="Recordarme"
+            />} */}
+            { user === false && !loading ? (
+              <div className={classes.errorMsg}>Usuario inválido, revisa tu nombre de usuario y contraseña</div>
+              ) : null}
+            <Button
+              disabled = { txtUserN.length === 0 || txtPass.length === 0 || loading }
+              to="/account"
+              fullWidth
+              variant="contained"
+              className={classes.submit}
+              onClick={handleLogin}
+            >
+              { loading ? (<div className={classes.loadingContainer}><CircularProgress style={{color: '#a34700'}}/><Typography>CARGANDO</Typography></div>) : "INICIAR SESIÓN" }
+            </Button>
+            <Grid container>
+              <Grid item>
+                <NavLink variant="body2" as={NavLink} to="/signup">
+                  REGÍSTRATE
+                </NavLink>
+              </Grid>
             </Grid>
-            <Grid item>
-                <NavLink variant="body2" as={NavLink} to="/signup">REGÍSTRATE</NavLink>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </form>
+        </div>
+      </Container>
     </Grid>
   );
 }

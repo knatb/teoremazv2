@@ -17,6 +17,7 @@ import Material from './Pages/Material';
 import Contact from './Pages/Contact';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
+import Account from './Pages/Account';
 import PaymentMethod from './Pages/PaymentMethod';
 
 import bgImg from './images/fondo.jpg';
@@ -64,6 +65,9 @@ function App(props) {
                 </Route>
                 <Route path="/signup">
                   <SignUp />
+                </Route>
+                <Route path="/account">
+                  <Account />
                 </Route>
                 <Route path="/payment">
                   <PaymentMethod />

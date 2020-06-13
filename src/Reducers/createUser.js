@@ -1,8 +1,7 @@
 import {
-  SEARCH_USER_START,
-  SEARCH_USER_ERROR,
-  SEARCH_USER_COMPLETE,
-  SEARCH_USER_RESET
+  CREATE_USER_REQ,
+   CREATE_USER_COMPLETE, 
+   CREATE_USER_ERROR
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -12,29 +11,25 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-  switch (action.type) {
-    case SEARCH_USER_START:
+  switch (action.type){
+    case CREATE_USER_REQ: 
       return {
         ...state,
         loading: true
       };
-    case SEARCH_USER_COMPLETE:
-      return {
-        ...state,
-        loading: false,
-        results: action.payload
-      };
-    case SEARCH_USER_ERROR: 
+    case CREATE_USER_ERROR:
       return {
         ...state,
         loading: false,
         error: action.payload
       };
-    case SEARCH_USER_RESET:
+    case CREATE_USER_COMPLETE:
       return {
-        ...initialState
+        ...state,
+        loading: false,
+        results: action.payload
       };
-    default: 
+    default:
       return state;
   }
 }

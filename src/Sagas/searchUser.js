@@ -13,10 +13,10 @@ import {
 import apiCall from '../Apis/ApiUser';
 
 function * searchUser (action) {
-
-  const { someData } = action.payload;
+  const data = action.payload;
+  
   try {
-    const result = yield call(apiCall, 'POST', '/login', someData);
+    const result = yield call(apiCall, 'POST', '/login', data);
 
     if(result.data.Error) {
       throw new Error(result.data.Error);
@@ -24,7 +24,7 @@ function * searchUser (action) {
 
     yield put({
       type: SEARCH_USER_COMPLETE,
-      payload: result.data.Search
+      payload: result.data
     });
 
   } catch (e) {

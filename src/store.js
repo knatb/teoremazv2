@@ -12,8 +12,8 @@ const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
 
   const storeEnhancers = compose(
-    applyMiddleware(sagaMiddleware)
-    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(sagaMiddleware),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 
   return {

@@ -22,12 +22,14 @@ const useStyles = makeStyles({
     fontWeight: 'inherit'
   },
   paragraph: {
-    color: 'white'
+    color: 'white',
+    textAlign: 'center'
   },
   cardContainer: {
     background: '#D6770FCC',
     height: '100%',
-    padding: '5px'
+    padding: '20px',
+    margin: '20px'
   }
 });
 
@@ -66,7 +68,7 @@ export default function Dashboard() {
 
     <Grid container className={styles.GridStyle}>     
      
-      <Grid item md={4}>
+      <Grid item md={3}>
         <img className={styles.avatars} alt="avatar" src={require('../images/monito.png')}></img>
       </Grid>
       <Grid item md={8} >        

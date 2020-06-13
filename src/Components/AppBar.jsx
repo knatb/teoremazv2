@@ -1,4 +1,8 @@
 import React from 'react';
+// Redux
+import { useSelector } from 'react-redux';
+import _ from 'lodash';
+// Components
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -36,16 +40,19 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
 
+  const user = useSelector(state => _.get(state, 'user.results'));
+  console.log("Appbar: ", user);
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.AppBar}>
         <Toolbar>
-          <div className={classes.title}>
-            <img src={teoremazLogo} height={45} alt='Logo'/>
-            <Button component={NavLink} to="/dashboard" >
-              <Typography variant="h6" className={classes.titleText}>
-                Teoremaz Escuela de Matemáticas
-              </Typography>
+          <div className={classes.title}>    
+          <img src={teoremazLogo} alt='Logo'/>          
+            <Button component={NavLink} to="/dashboard">              
+              <Typography variant="h6" className={classes.menuButton}>
+              Teoremaz Escuela de Matemáticas
+            </Typography>
             </Button>
           </div>
           <Button component={NavLink} to="/services" className={classes.menuButton}>
@@ -63,9 +70,9 @@ export default function ButtonAppBar() {
               Contacto
             </Typography>            
           </Button>
-          <Button component={NavLink} to="/signin" className={classes.menuButton}>
+          <Button component={NavLink} to={user ? "/account" : "/signin"} className={classes.menuButton}>
             <Typography variant="h6" >
-              Iniciar Sesión
+              {user ? "Mi cuenta" : "Iniciar Sesión"}
             </Typography>
           </Button>
         </Toolbar>

@@ -1,3 +1,10 @@
+// Create User Process
+export const CREATE_USER_REQ = 'CREATE_USER_REQ';
+export const CREATE_USER_COMPLETE = 'CREATE_USER_COMPLETE';
+export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
+
+
+// Login Process
 export const SEARCH_USER_START = 'SEARCH_USER_START';
 export const SEARCH_USER_ERROR = 'SEARCH_USER_ERROR';
 export const SEARCH_USER_COMPLETE = 'SEARCH_USER_COMPLETE';

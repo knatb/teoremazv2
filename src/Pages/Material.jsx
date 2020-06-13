@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import SubjectList from '../Components/SubjectList';
 import { makeStyles } from '@material-ui/core/styles';
 import Iframe from '../Components/Iframe';
+
+/*
+https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf
+https://proyecto-1.s3.amazonaws.com/Calculo-Diferencial.pdf
+https://proyecto-1.s3.amazonaws.com/Cálcuclo-Patria.pdf
+https://proyecto-1.s3.amazonaws.com/Cálculo-Integral.pdf
+https://proyecto-1.s3.amazonaws.com/Cálculo-Schaum.pdf
+https://proyecto-1.s3.amazonaws.com/Física por Paule Tippens 7ma Edicion revisada.pdf
+https://proyecto-1.s3.amazonaws.com/Tortora-Anatomia_y_fisiologia_humana.pdf
+*/
 
 const useStyles = makeStyles({
   buttons: {
@@ -25,8 +35,6 @@ const useStyles = makeStyles({
    alignItems: 'center',
    justifyContent: 'center',
    margin: '3px 3px 3px 3px',
-        
-  
  },
   img: {
     margin: 'auto',
@@ -49,7 +57,27 @@ const useStyles = makeStyles({
 })
 
 export default function Material(props) {
-  var styles = useStyles()
+  var styles = useStyles();
+
+  const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+  const [pdfUrl, setPdfUrl] = useState('https://arxiv.org/pdf/quant-ph/0410100.pdf');
+
+  const librosBiologia = [
+    "https://arxiv.org/pdf/quant-ph/0410100.pdf",
+    "https://s2.q4cdn.com/175719177/files/doc_presentations/Placeholder-PDF.pdf",
+    "https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf"
+  ];
+
+  function ButtonLeccion(props) {
+    return (
+    <Button 
+      className={styles.button}
+      onClick={() => {setPdfUrl(`${proxyUrl}${props.toPdf}`)}}>
+        {props.Text}
+     </Button>
+    );
+  }
 
   return (
     <Grid container spacing={3}>
@@ -57,28 +85,36 @@ export default function Material(props) {
       <Grid item xs>
       <SubjectList />
       </Grid>
-       
       <Grid item xs={6}>
         <Button className={styles.buttons}>Recursos</Button>
         <Button className={styles.buttons}>Ejercicios</Button>
-      
+        <Iframe src={pdfUrl}></Iframe>
       </Grid>
       <Grid item xs>      
         <Grid container spacing={3} className={styles.books}>
           <Grid item>
-            <Button className={styles.button}>
+            <ButtonLeccion Text="Boton de plantilla" toPdf="https://s2.q4cdn.com/175719177/files/doc_presentations/Placeholder-PDF.pdf"/>
+            <Button className={styles.button}
+              onClick={() => {setPdfUrl(`${proxyUrl}https://arxiv.org/pdf/quant-ph/0410100.pdf`)}}>
+              Prueba 1 Con URL
+            </Button>
+            <Button className={styles.button}
+             onClick={() => {setPdfUrl(`${proxyUrl}https://s2.q4cdn.com/175719177/files/doc_presentations/Placeholder-PDF.pdf`)}}>
               Prueba 1
             </Button>
-            <Button className={styles.button}>
+            <Button className={styles.button}
+             onClick={() => {setPdfUrl(`${proxyUrl}https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf`)}}>
               Prueba 1
             </Button>
-            <Button className={styles.button}>
-              Prueba 1
-            </Button>
+            <div>
+              Botones con Array.Map
+            </div>
+            {librosBiologia.map((item, index) => (<ButtonLeccion Text={index} toPdf={item}/>)) }
           </Grid>
         </Grid>
       </Grid>
-
     </Grid>
   )
 }
+
+

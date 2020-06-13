@@ -12,7 +12,7 @@ import {
 
 function* searchServices() {
   try {
-    const result = yield call (apiCall, 'GET', '/', null);
+    const result = yield call (apiCall, 'GET', '', null, null);
 
     if (result.data.Error) {
       throw new Error(result.data.Eror);

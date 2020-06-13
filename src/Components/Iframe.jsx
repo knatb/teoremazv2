@@ -1,25 +1,36 @@
-/*import React from 'react';
-import ReactDOM from 'react-dom';
-const Component = React.createClass({
-   iframe: function () {
-     return {
-       __html: this.props.iframe
-     }
-   },
- 
-   render: function() {
-     return (
-       <div>
-         <div dangerouslySetInnerHTML={ this.iframe() } />
-       </div>
-     );
-   }
- });
- 
- const iframe = '<iframe src="https://www.example.com/show?data..." width="540" height="450"></iframe>'; 
- 
- ReactDOM.render(
-   <Component iframe={iframe} />,
-   document.getElementById('container')
- );
- */
+import React from 'react'
+import PDFViewer from 'pdf-viewer-reactjs'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({ 
+    div: {
+      paddingTop: '10px',
+      marginBottom: '-200px',
+    },     
+    PDF: {
+        width: '100px',
+        height: '50px',
+        alignItems: 'center'
+    }
+  }));
+
+const ExamplePDFViewer = (props) => {
+    var styles = useStyles()
+    
+    const {
+        src
+      } = props;
+
+    return (
+        <div className={styles.div}>
+            <PDFViewer 
+                navbarOnTop='true'
+                document={{
+                    url: src
+                }}
+            />
+        </div>
+    )
+}
+
+export default ExamplePDFViewer
