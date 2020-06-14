@@ -23,6 +23,8 @@ import PaymentMethod from './Pages/PaymentMethod';
 import bgImg from './images/fondo.jpg';
 import './App.css';
 
+import { saveState } from './localStorage' 
+
 const useStyles = makeStyles({
   mainbody: {
     backgroundColor: '#2F0055',
@@ -35,6 +37,11 @@ const useStyles = makeStyles({
 
 function App(props) {
   const { store } = props;
+  store.subscribe(() => {
+    saveState( {
+      user: store.getState().user
+    });
+  })
   const styles = useStyles();
   return (
     <Provider store={store}>

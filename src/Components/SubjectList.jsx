@@ -9,6 +9,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+// Redux
+import { useDispatch } from 'react-redux';
+import { setMaterial } from '../Actions/material'
+
 
 //#400057 #b7027b81 #590379
 const useStyles = makeStyles((theme) => ({
@@ -41,8 +45,12 @@ const useStyles = makeStyles((theme) => ({
  expansionPanel:{
    background: '#590379',
    color: 'White',
+   padding: '5px'
  },
  grid: {
+   width: '100%',
+   padding: 0,
+   flex: 'column',
    alignContent: 'center',
    alignItems: 'center',
    alignText: 'center',
@@ -69,6 +77,8 @@ export default function ControlledExpansionPanels() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+  const dispatch = useDispatch();
   /*
   https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf
   https://proyecto-1.s3.amazonaws.com/Calculo-Diferencial.pdf
@@ -78,7 +88,9 @@ export default function ControlledExpansionPanels() {
   https://proyecto-1.s3.amazonaws.com/Física por Paule Tippens 7ma Edicion revisada.pdf
   https://proyecto-1.s3.amazonaws.com/Tortora-Anatomia_y_fisiologia_humana.pdf
 */
-
+  const updateButtons = (array) => {
+    dispatch(setMaterial(array))
+  }
 
   //Objecto general
 
@@ -100,25 +112,27 @@ export default function ControlledExpansionPanels() {
         link: 'https://proyecto-1.s3.amazonaws.com/Cálculo-Schaum.pdf'
     },
   ]
- var Algebra= [
+
+  var Algebra = [
     {
         name: 'Algebra',
         link: 'https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf'
     }
-]
+  ]
 
  var Fisica = [
-  {
-    name: 'Fisica',
-    link: 'https://proyecto-1.s3.amazonaws.com/Física por Paule Tippens 7ma Edicion revisada.pdf'
-  },
-]
-var Biología=[
-  {
-    name: 'Anatomía y Fisiología',
-    link: 'https://proyecto-1.s3.amazonaws.com/Tortora-Anatomia_y_fisiologia_humana.pdf'
-  }
-]
+    {
+      name: 'Fisica',
+      link: 'https://proyecto-1.s3.amazonaws.com/Física por Paule Tippens 7ma Edicion revisada.pdf'
+    },
+  ]
+
+ var Biología = [
+    {
+      name: 'Anatomía y Fisiología',
+      link: 'https://proyecto-1.s3.amazonaws.com/Tortora-Anatomia_y_fisiologia_humana.pdf'
+    }
+ ]
 
 
   return (
@@ -136,17 +150,16 @@ var Biología=[
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid className={classes.grid}>
-            <Button className={classes.button}  onClick={() => (console.log())}>
+            <Button className={classes.button}  onClick={() => {updateButtons(Calculo)}}>
               Integral
             </Button>
-            <Button className={classes.button}  onClick={() => (console.log())}>
+            <Button className={classes.button}  onClick={() => (console.log("Diferencial"))}>
               Diferencial
             </Button>
             <Button className={classes.button}  onClick={() => (console.log("Hola"))}>
               Limites
             </Button>
          </Grid>
-        
         </ExpansionPanelDetails>
       </ExpansionPanel>
 
@@ -156,14 +169,14 @@ var Biología=[
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography className={classes.heading}>ALGEBRA</Typography>
+          <Typography className={classes.heading}>ÁLGEBRA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid>
-            <Button className={classes.button}  onClick={() => ({})}>
+            <Button className={classes.button} onClick={() => ({})}>
              Ecuaciones exponenciales
             </Button>
-            <Button className={classes.button}  onClick={() => ({})}>
+            <Button className={classes.button} onClick={() => ({})}>
             Productos notables
             </Button>
             <Button className={classes.button} onClick={() => ({})}>
@@ -180,18 +193,18 @@ var Biología=[
           aria-controls="panel3bh-content"
           id="panel3bh-header"
         >
-          <Typography className={classes.heading}>QUIMICA</Typography>
+          <Typography className={classes.heading}>QUÍMICA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid>
             <Button className={classes.button} onClick={() => ({})}>
-            El método científico
+              El método científico
             </Button>
             <Button className={classes.button} onClick={() => ({})}>
-            Ácidos y bases
+              Ácidos y bases
             </Button>
             <Button className={classes.button} onClick={() => ({})}>
-            Solubilidad
+              Solubilidad
             </Button>
          </Grid>
         
@@ -204,7 +217,7 @@ var Biología=[
           aria-controls="panel4bh-content"
           id="panel4bh-header"
         >
-          <Typography className={classes.heading}>BIOLOGIA</Typography>
+          <Typography className={classes.heading}>BIOLOGÍA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid>
@@ -228,7 +241,7 @@ var Biología=[
           aria-controls="panel5bh-content"
           id="panel5bh-header"
         >
-          <Typography className={classes.heading}>FISICA</Typography>
+          <Typography className={classes.heading}>FÍSICA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid>

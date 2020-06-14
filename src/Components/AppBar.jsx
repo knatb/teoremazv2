@@ -41,7 +41,6 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   const user = useSelector(state => _.get(state, 'user.results'));
-  console.log("Appbar: ", user);
 
   return (
     <div className={classes.root}>

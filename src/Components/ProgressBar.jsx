@@ -1,12 +1,26 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles({
   root: {
     width: '100%',
-  },
+  }
 });
+
+const BorderLinearProgress = withStyles((theme) => ({
+  root: {
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor: theme.palette.grey[theme.palette.type === 'dark' ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: '#D6770F',
+  },
+}))(LinearProgress);
 
 export default function LinearDeterminate() {
   const classes = useStyles();
@@ -30,7 +44,7 @@ export default function LinearDeterminate() {
 
   return (
     <div className={classes.root}>
-      <LinearProgress color='primary' variant="determinate" value={progress} />
+      <BorderLinearProgress thickness={4} variant="determinate" value={progress} />
     </div>
   );
 }

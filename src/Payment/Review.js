@@ -20,15 +20,12 @@ const payments = [
 const useStyles = makeStyles((theme) => ({
   listItem: {
     padding: theme.spacing(1, 0),
-    color: 'white'
   },
   total: {
     fontWeight: 700,
-    color: 'white'
   },
   title: {
     marginTop: theme.spacing(2),
-    color: 'white'
   },
 }));
 

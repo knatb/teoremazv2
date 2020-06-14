@@ -17,15 +17,15 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     alignItems: 'center',
     maxWidth: '100%',
-    backgroundColor: '#646464b3',
-    color: 'white',
+    backgroundColor: '#ffffff91',
+    color: 'black',
     borderRadius: '30px'
   },
   img: {
     margin: 'auto',
     display: 'block',
-    maxWidth: '50%',
-    maxHeight: '50%',
+    maxWidth: '40%',
+    maxHeight: '40%',
   },
  
   titles: {

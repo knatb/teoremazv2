@@ -1,7 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 // Redux
-import { useDispatch } from 'react-redux';
-import { createUserReq } from '../Actions/user';
+import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
+import { resetUser } from '../Actions/user'
 //components
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -9,7 +10,11 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+//  Styles
+import {
+  withStyles,
+  makeStyles
+} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     alignItems: 'center',
     maxWidth: '100%',
-    backgroundColor: '#646464b3',
-    color: 'white',
+    backgroundColor: '#ffffff91',
+    color: 'black',
     borderRadius: '30px'
   },
   img: {
@@ -46,56 +51,89 @@ const useStyles = makeStyles((theme) => ({
   buttonGroup: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    
+    alignItems: 'center',    
   },
   account: {      
     flexDirection: 'column',
-    alignItems: 'center',
-    }
+    alignItems: 'center'
+  },
+  passwordsContainer: {
+    padding: 0
+  }
 }));
+
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: '#b82204',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#D6770F',
+      },
+      '&:hover fieldset': {
+        borderColor: '#b82204',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#D6770F',
+      },
+    },    
+  },
+})(TextField);
 
 export default function CardAccount(props) {
   const classes = useStyles();
- // Data state
- const [txtName, setTxtName] = useState('');
- const [txtLName, setTxtLName] = useState('');
- const [txtUserName, setTxtUserName] = useState('');
- const [txtEMail, setTxtEmail] = useState('');
- const [txtPassword, setTxtPassword] = useState('');
- const [txtRepeatPass, setTxtRepeatPass] = useState('');
- const [isValid, setIsValid] = useState(false);
- const [passwordValid, setPassValid] = useState(true);
 
+  // User from store
+  const user = useSelector((state) => _.get(state, "user.results"));
+
+  // Data state
+  const [txtName, setTxtName] = useState(user?.completeName);
+  const [txtLName, setTxtLName] = useState('');
+  const [txtUserName, setTxtUserName] = useState(user?.username);
+  const [txtEMail, setTxtEmail] = useState(user?.email);
+  const [txtPassword, setTxtPassword] = useState('');
+  const [txtNewPassword, setTxtNewPassword] = useState('');
+  const [txtRepeatPass, setTxtRepeatPass] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+  const [passwordValid, setPassValid] = useState(true);
+
+  const restoreData = () => {
+    setTxtName(user?.completeName);
+    setTxtLName('');
+    setTxtEmail(user?.email);
+    setTxtPassword('');
+    setTxtRepeatPass('');
+  }
+ 
  const dispatch = useDispatch();
 
  useEffect(() => {
-   setIsValid(
-     txtName.length > 0 && 
-     txtLName.length > 0 &&
-     txtUserName.length > 0 &&
-     txtEMail.length > 0 &&
-     txtPassword.length > 0 &&
-     txtRepeatPass.length > 0 &&
-     passwordValid);
+  //  setIsValid(
+  //    txtName.length > 0 && 
+  //    txtLName.length > 0 &&
+  //    txtUserName.length > 0 &&
+  //    txtEMail.length > 0 &&
+  //    txtPassword.length > 0 &&
+  //    txtRepeatPass.length > 0 &&
+  //    passwordValid);
  });
 
-  const{
-    imageurl,
-    username,
-    firstName,
-    lastName,
-    email, 
-    password
-  } = props;
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-      <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate>
           <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant='h4'>
+                Bienvenido: {txtUserName}
+              </Typography>
+            </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField              
+              <CssTextField
+                disabled={!editMode}              
                 value={txtName}
                 name="firstName"
                 autoComplete="fname"
@@ -109,7 +147,8 @@ export default function CardAccount(props) {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <CssTextField
+                disabled={!editMode}
                 value={txtLName}
                 name="lastName"
                 autoComplete="lname"
@@ -122,20 +161,8 @@ export default function CardAccount(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                value={txtUserName}
-                name="username"
-                autoComplete="username"
-                variant="outlined"
-                required
-                fullWidth
-                id="username"
-                label="Nombre de Usuario"
-                onChange={e => {setTxtUserName(e.target.value)}}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
+              <CssTextField
+                disabled={!editMode}
                 value={txtEMail}
                 name="email"
                 autoComplete="email"
@@ -147,46 +174,67 @@ export default function CardAccount(props) {
                 onChange={e => {setTxtEmail(e.target.value)}}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                value={txtPassword}
-                name="password"
-                variant="outlined"
-                required
-                fullWidth
-                type="password"
-                id="password"
-                label="Contraseña"
-                onChange={e => {
-                  setTxtPassword(e.target.value);
-                  setPassValid(e.target.value === txtRepeatPass)
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                value={txtRepeatPass}
-                variant="outlined"
-                name="password"
-                required
-                fullWidth
-                type="password"
-                id="password"
-                label="Repite tu contraseña"
-                onChange={e => {
-                  setTxtRepeatPass(e.target.value);
-                  setPassValid(e.target.value === txtPassword)
-                }}
-              />
-            </Grid>
-          </Grid>
-          <div className={classes.buttonGroup}>
+            {!editMode ? null : (
+            <React.Fragment>
+              <Grid item xs={12}>
+                <CssTextField
+                  value={txtPassword}
+                  name="password"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  type="password"
+                  label="Contraseña"
+                  onChange={e => {
+                    setTxtPassword(e.target.value);
+                    setPassValid(e.target.value === txtRepeatPass)
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CssTextField
+                  value={txtPassword}
+                  name="password"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  type="password"
+                  label="Nueva Contraseña"
+                  onChange={e => {
+                    setTxtNewPassword(e.target.value);
+                    setPassValid(e.target.value === txtRepeatPass)
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CssTextField
+                  value={txtRepeatPass}
+                  variant="outlined"
+                  name="password"
+                  required
+                  fullWidth
+                  type="password"
+                  label="Repite tu contraseña"
+                  onChange={e => {
+                    setTxtRepeatPass(e.target.value);
+                    setPassValid(e.target.value === txtNewPassword)
+                  }}
+                />
+              </Grid>
+            </React.Fragment>
+            )}
+            <div className={classes.buttonGroup}>
               <ButtonGroup aria-label="outlined secondary button group">
-                <Button variant="contained" className={classes.button}>Editar Cuenta</Button>
-                <Button variant="contained" className={classes.button}>Cerrar Sesión</Button>
-                <Button variant="contained" className={classes.button}>Eliminar Cuenta</Button>
+                {editMode ? [
+                    (<Button onClick={() => {setEditMode(false)}} variant="contained" className={classes.button}>CANCELAR</Button>),
+                    (<Button variant="contained" className={classes.button}>Eliminar Cuenta</Button>)
+                 ] : (
+                  <Button onClick={() => {setEditMode(true)}} variant="contained" className={classes.button}>EDITAR CUENTA</Button>
+                )}
+                <Button variant="contained" className={classes.button} onClick={() => {dispatch(resetUser())} }>Cerrar Sesión</Button>
               </ButtonGroup>
             </div>
+          </Grid>
         </form>
       </Paper>
     </div>

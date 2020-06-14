@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import _ from 'lodash';
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { searchServices } from '../Actions/service';
 import MyCarousel from '../Components/Carousel';
 import CardInfo from '../Components/CardInfo';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 export default function Services() {
 
@@ -31,7 +31,7 @@ export default function Services() {
       ))
     }
     else if (loading) {
-      return <CircularProgress size={80} color="primary"/>
+      return <LinearProgress size={80} color="primary"/>
     }
     else if (error) {
       return <h1 severity="error">Oooops, something terrible has happened! :/</h1>;

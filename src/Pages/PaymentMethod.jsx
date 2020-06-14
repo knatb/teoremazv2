@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(6),
       padding: theme.spacing(3),
     },
-    backgroundColor: '#646464b3'
+    backgroundColor: '#ffffff91'
   },
   stepper: {
     padding: theme.spacing(3, 0, 5),

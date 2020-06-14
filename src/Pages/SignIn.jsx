@@ -11,18 +11,24 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-//https://stackoverflow.com/questions/52911169/how-to-change-the-border-color-of-material-ui-textfield
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+//  Styles
+import {
+  withStyles,
+  makeStyles
+} from '@material-ui/core/styles';
+
+//https://material-ui.com/components/text-fields/#customized-inputs
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -33,12 +39,12 @@ const useStyles = makeStyles((theme) => ({
     background: 'white',
     padding: "8px",
     borderRadius: "5px",
-    backgroundColor: '#ffffffc7',
+    backgroundColor: '#ffffff91',
     margin: '20px 0px 20px 0px'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: '#b7027b81'
+    backgroundColor: '#D6770F'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -62,6 +68,25 @@ const useStyles = makeStyles((theme) => ({
     width: '60%'
   }
 }));
+
+const CssTextField = withStyles({
+  root: {    
+    '& label.Mui-focused': {
+      color: '#b82204',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#D6770F',
+      },
+      '&:hover fieldset': {
+        borderColor: '#b82204',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#D6770F',
+      },
+    },
+  },
+})(TextField);
 
 export default function SignIn() {
   const classes = useStyles();
@@ -98,7 +123,7 @@ export default function SignIn() {
             INICIAR SESIÓN
           </Typography>
           <form className={classes.form} noValidate>
-            <TextField
+            <CssTextField
               value={txtUserN}
               name="username"
               autoComplete="username"
@@ -113,7 +138,7 @@ export default function SignIn() {
                 setTxtUserN(e.target.value);
               }}
             />
-            <TextField
+            <CssTextField
               value={txtPass}
               name="password"
               autoComplete="current-password"
@@ -128,10 +153,6 @@ export default function SignIn() {
                 setTxtPass(e.target.value);
               }}
             />
-            {/* {<FormControlLabel
-              control={<Checkbox value="remember"/>}
-              label="Recordarme"
-            />} */}
             { user === false && !loading ? (
               <div className={classes.errorMsg}>Usuario inválido, revisa tu nombre de usuario y contraseña</div>
               ) : null}

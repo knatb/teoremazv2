@@ -14,9 +14,13 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress  from '@material-ui/core/CircularProgress'
+//  Styles
+import {
+  withStyles,
+  makeStyles
+} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
     background: 'white',
     padding: "8px",
     borderRadius: "5px",
-    backgroundColor: '#ffffffc7'
+    backgroundColor: '#ffffff91'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: '#b7027b81'
+    backgroundColor: '#D6770F'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -57,6 +61,26 @@ const useStyles = makeStyles((theme) => ({
     width: '60%'
   }
 }));
+
+
+const CssTextField = withStyles({
+  root: {    
+    '& label.Mui-focused': {
+      color: '#b82204',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#D6770F',
+      },
+      '&:hover fieldset': {
+        borderColor: '#b82204',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#D6770F',
+      },
+    },
+  },
+})(TextField);
 
 export default function SignUp() {
 
@@ -122,7 +146,7 @@ export default function SignUp() {
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <TextField              
+                <CssTextField              
                   value={txtName}
                   name="firstName"
                   autoComplete="fname"
@@ -136,7 +160,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
+                <CssTextField
                   value={txtLName}
                   name="lastName"
                   autoComplete="lname"
@@ -149,7 +173,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <CssTextField
                   value={txtUserName}
                   name="username"
                   autoComplete="username"
@@ -162,7 +186,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <CssTextField
                   value={txtEMail}
                   name="email"
                   autoComplete="email"
@@ -175,7 +199,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <CssTextField
                   value={txtPassword}
                   name="password"
                   variant="outlined"
@@ -191,7 +215,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <CssTextField
                   value={txtRepeatPass}
                   variant="outlined"
                   name="password"

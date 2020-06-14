@@ -5,6 +5,10 @@ import SubjectList from '../Components/SubjectList';
 import { makeStyles } from '@material-ui/core/styles';
 import Iframe from '../Components/Iframe';
 
+//Redux
+import _ from 'lodash';
+import { useSelector } from 'react-redux';
+
 /*
 https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf
 https://proyecto-1.s3.amazonaws.com/Calculo-Diferencial.pdf
@@ -63,11 +67,7 @@ export default function Material(props) {
 
   const [pdfUrl, setPdfUrl] = useState('https://arxiv.org/pdf/quant-ph/0410100.pdf');
 
-  const librosBiologia = [
-    "https://arxiv.org/pdf/quant-ph/0410100.pdf",
-    "https://s2.q4cdn.com/175719177/files/doc_presentations/Placeholder-PDF.pdf",
-    "https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf"
-  ];
+  const buttons = useSelector(state => _.get(state, 'setMaterial.materials'));
 
   function ButtonLeccion(props) {
     return (
@@ -109,7 +109,7 @@ export default function Material(props) {
             <div>
               Botones con Array.Map
             </div>
-            {librosBiologia.map((item, index) => (<ButtonLeccion Text={index} toPdf={item}/>)) }
+            {buttons.map((item, index) => (<ButtonLeccion key={index} Text={item.name} toPdf={item.link}/>)) }
           </Grid>
         </Grid>
       </Grid>

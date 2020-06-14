@@ -1,10 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
+import _ from 'lodash';
 import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,9 +47,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ComplexGrid(props) {
+  const user = useSelector((state) => _.get(state, "user.results"));
   const classes = useStyles();
   var cursos = '9b9f845d-1690-44c1-80d9-db36c7785c10'
-  var texto = ''
+  var texto = 'Comprar'
+  var a = 0
   const{
     imageurl,
     name,
@@ -59,10 +63,22 @@ export default function ComplexGrid(props) {
 
     if (id === cursos) {
       texto = 'Comprado';
+      a = 1
     }
     else {
       texto = 'Comprar'
+      a = 0
     }
+/*
+    if (user.courses.length !==0) {
+      for (var c = 0; c < user.courses.length; c++) {
+        if (id === user.courses[c] ) {
+          texto = 'Comprado';
+          a = 1
+        }
+      }
+    }
+    */
 
   return (
     <div className={classes.root}>
@@ -91,18 +107,29 @@ export default function ComplexGrid(props) {
               </Grid>
             </Grid>
             <Grid item>              
-               <Button id={id} variant="contained" className={classes.button} component={NavLink} to="/payment">
-                  {texto}
-                  {(() => {
-                      if (texto === 'comprado') {
-                        document.getElementById(id).disabled = true; 
-                      }
-                  })()}
-              </Button>
+               {Activo()}
             </Grid>
           </Grid>
         </Grid>
       </Paper>
     </div>
   );
+
+  function Activo() {
+    if (a === 1) {
+      return (
+        <Button variant="contained" disabled className={classes.button} component={NavLink} to="/payment">
+           {texto}
+        </Button>
+      )
+    }
+    else{
+      return (
+        <Button variant="contained" className={classes.button} component={NavLink} to="/payment">
+           {texto}
+        </Button>
+      )
+    }
+
+  }
 }
