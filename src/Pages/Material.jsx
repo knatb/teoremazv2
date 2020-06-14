@@ -8,6 +8,7 @@ import Iframe from '../Components/Iframe';
 //Redux
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
+import { flexbox } from '@material-ui/system';
 
 /*
 https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf
@@ -21,43 +22,46 @@ https://proyecto-1.s3.amazonaws.com/Tortora-Anatomia_y_fisiologia_humana.pdf
 
 const useStyles = makeStyles({
   buttons: {
-    width: '298px',
+    width: '48%',
     color: 'white',
     background: '#2F0055',
     margin: '8px 0px 0px 0px',
     border: '3px solid #D6770F'
   },
- button: {
-   background: '#8e24aa',
-   width: '100%',
-   color: 'White',
-      '&:hover': {
-        backgroundColor: 'White',
-        color: 'Black'
+  buttonsContainer: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+  button: {
+    background: '#8e24aa',
+     width: '100%',
+     color: 'White',
+     '&:hover': {
+       backgroundColor: 'White',
+       color: 'Black'
+      },
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '3px 3px 3px 3px',
     },
-   alignContent: 'center',
-   alignItems: 'center',
-   justifyContent: 'center',
-   margin: '3px 3px 3px 3px',
- },
-  img: {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
-  },
-  books: {
-    width: '298px',
-    color: 'white',
-    background: '#2F0055',
-    margin: '8px 0px 0px 0px',
-    border: '4px solid #D6770F',
-    height: '500px',
-    aligncenter: 'center'
-  },
-  pdf: {
-
-  }
+    img: {
+      margin: 'auto',
+      display: 'block',
+      maxWidth: '100%',
+      maxHeight: '100%',
+    },
+    books: {
+      width: '298px',
+      color: 'white',
+      background: '#2F0055',
+      margin: '8px 0px 0px 0px',
+      border: '4px solid #D6770F',
+      minHeight: '500px',
+      aligncenter: 'center'
+    },
+    pdf: { }
 })
 
 export default function Material(props) {
@@ -81,34 +85,21 @@ export default function Material(props) {
 
   return (
     <Grid container spacing={3}>
-
+      {/* Listado de materias */}
       <Grid item xs>
-      <SubjectList />
+        <SubjectList />
       </Grid>
-      <Grid item xs={6}>
-        <Button className={styles.buttons}>Recursos</Button>
-        <Button className={styles.buttons}>Ejercicios</Button>
+      {/* {Botones y el pdf} */}
+      <Grid item xs={12} md={6}>
+        <div className={styles.buttonsContainer}>
+          <Button className={styles.buttons}>Recursos</Button>
+          <Button className={styles.buttons}>Ejercicios</Button>
+        </div>
         <Iframe src={pdfUrl}></Iframe>
       </Grid>
       <Grid item xs>      
         <Grid container spacing={3} className={styles.books}>
           <Grid item>
-            <ButtonLeccion Text="Boton de plantilla" toPdf="https://s2.q4cdn.com/175719177/files/doc_presentations/Placeholder-PDF.pdf"/>
-            <Button className={styles.button}
-              onClick={() => {setPdfUrl(`${proxyUrl}https://arxiv.org/pdf/quant-ph/0410100.pdf`)}}>
-              Prueba 1 Con URL
-            </Button>
-            <Button className={styles.button}
-             onClick={() => {setPdfUrl(`${proxyUrl}https://s2.q4cdn.com/175719177/files/doc_presentations/Placeholder-PDF.pdf`)}}>
-              Prueba 1
-            </Button>
-            <Button className={styles.button}
-             onClick={() => {setPdfUrl(`${proxyUrl}https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf`)}}>
-              Prueba 1
-            </Button>
-            <div>
-              Botones con Array.Map
-            </div>
             {buttons.map((item, index) => (<ButtonLeccion key={index} Text={item.name} toPdf={item.link}/>)) }
           </Grid>
         </Grid>

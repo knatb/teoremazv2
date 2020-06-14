@@ -1,7 +1,11 @@
 import {
+  // Login
   SEARCH_USER_START,
   SEARCH_USER_RESET,
-  CREATE_USER_REQ 
+  // Creation of an user
+  CREATE_USER_REQ,
+  // Update an user
+  EDIT_USER_REQ 
 } from '../constants/actionTypes';
 
 export const resetUser = () => ({
@@ -16,4 +20,9 @@ export const searchUser = payload => ({
 export const createUserReq = payload => ({
   type: CREATE_USER_REQ,
   payload
-})
+});
+
+export const editUserReq = payload => ({
+  type: EDIT_USER_REQ,
+  payload
+});

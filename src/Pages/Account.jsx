@@ -40,7 +40,7 @@ export default function Account() {
 
   const user = useSelector((state) => _.get(state, "user.results"));
   let history = useHistory();
-  console.log(user.courses.length)
+  console.log(user?.courses.length)
   if(!user) {
     history.push('/signin')
   }

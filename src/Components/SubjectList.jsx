@@ -27,47 +27,41 @@ const useStyles = makeStyles((theme) => ({
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary
+    color: 'red' //theme.palette.text.secondary
   },
   button: {
-   margin: theme.spacing(1),
-   background: '#8e24aa',
-   width: '100%',
-   color: 'White', 
-   '&:hover': {
-    backgroundColor: 'White',
-    color: 'Black'
-},
-   alignContent: 'center',
-   alignItems: 'center',
-   justifyContent: 'center'
- },
- expansionPanel:{
-   background: '#590379',
-   color: 'White',
-   padding: '5px'
- },
- grid: {
-   width: '100%',
-   padding: 0,
-   flex: 'column',
-   alignContent: 'center',
-   alignItems: 'center',
-   alignText: 'center',
-   justifyContent: 'center'
- },
- paperSubject: {
-   color: 'white',
-   background: '#D6770F',
-   textAlign: 'center',
-   margin: '10px 0px 0px 0px',
-   height: '40px'
- },
- titleSub: {
-  fontSize: '1.5em',
-  fontWeight: 'bold'
- }
- 
+    margin: '10px 2px',
+    background: '#8e24aa',
+    //width: '100%',
+    color: 'White', 
+    '&:hover': {
+      backgroundColor: 'White',
+      color: 'Black'
+    }
+  },
+  expansionPanel:{
+    background: '#590379',
+    color: 'White',
+    padding: '0px'
+  },
+  grid: {
+    width: '100%',
+    padding: 5,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch'
+  },
+  paperSubject: {
+    color: 'white',
+    background: '#D6770F',
+    textAlign: 'center',
+    margin: '10px 0px 10px 0px',
+    height: '40px'
+  },
+  titleSub: {
+    fontSize: '1.5em',
+    fontWeight: 'bold'
+  }
 }));
 
 export default function ControlledExpansionPanels() {
@@ -140,12 +134,12 @@ export default function ControlledExpansionPanels() {
       <Paper className={classes.paperSubject}>
         <Typography className={classes.titleSub}>MATERIAS</Typography>
       </Paper>
+      {/* Cálculo */}
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
+          id="panel1bh-header">
           <Typography className={classes.heading}>CÁLCULO</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
@@ -157,22 +151,21 @@ export default function ControlledExpansionPanels() {
               Diferencial
             </Button>
             <Button className={classes.button}  onClick={() => (console.log("Hola"))}>
-              Limites
+              Límites
             </Button>
          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-
+      {/* Algebra */}
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
+          id="panel2bh-header">
           <Typography className={classes.heading}>ÁLGEBRA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
-         <Grid>
+         <Grid className={classes.grid}>
             <Button className={classes.button} onClick={() => ({})}>
              Ecuaciones exponenciales
             </Button>
@@ -183,20 +176,18 @@ export default function ControlledExpansionPanels() {
             Fracciones algebraicas
             </Button>
          </Grid>
-        
         </ExpansionPanelDetails>
       </ExpansionPanel>
-
+      {/* Quimica */}
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
+          id="panel3bh-header">
           <Typography className={classes.heading}>QUÍMICA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
-         <Grid>
+         <Grid className={classes.grid}>
             <Button className={classes.button} onClick={() => ({})}>
               El método científico
             </Button>
@@ -210,17 +201,16 @@ export default function ControlledExpansionPanels() {
         
         </ExpansionPanelDetails>
       </ExpansionPanel>
-
+      {/* Biologia */}
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
+          id="panel4bh-header">
           <Typography className={classes.heading}>BIOLOGÍA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
-         <Grid>
+         <Grid className={classes.grid}>
             <Button className={classes.button} onClick={() => ({})}>
                Bioquimica
             </Button>
@@ -234,17 +224,16 @@ export default function ControlledExpansionPanels() {
         
         </ExpansionPanelDetails>
       </ExpansionPanel>
-
+      {/* Fisica */}
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel5bh-content"
-          id="panel5bh-header"
-        >
+          id="panel5bh-header">
           <Typography className={classes.heading}>FÍSICA</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
-         <Grid>
+         <Grid className={classes.grid}>
             <Button className={classes.button}  onClick={() => ({})}>
                Dinámica
             </Button>
@@ -255,10 +244,8 @@ export default function ControlledExpansionPanels() {
                Electrostática
             </Button>
          </Grid>
-        
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      
     </div>
   );
 }
