@@ -9,8 +9,7 @@ import ProgressBar from './ProgressBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    overflow: 'scroll'
+    flexGrow: 1
   },
   paper: {
     position: 'center',
@@ -18,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     alignItems: 'center',
     maxWidth: '100%',
+    maxHeight: '100%',
     backgroundColor: '#ffffff91',
     color: 'black',
     borderRadius: '30px'
@@ -67,11 +67,11 @@ export default function CardCourses(props) {
           <Grid item xs container direction="column" alignItems="center" className={classes.courses}>
             <Typography gutterBottom variant="subtitle1" className={classes.titles}>
             Curso: {name}</Typography>
-            <Typography gutterBottom variant="body2" >
+            <Typography gutterBottom variant="body2" className={classes.titles}>
             Duración: {duration}</Typography>
             <Typography gutterBottom variant="subtitle1">
             {description}</Typography>
-            <Typography gutterBottom variant="body2">
+            <Typography gutterBottom variant="body2" className={classes.titles}>
             Progreso: </Typography>
             <ProgressBar />
             </Grid>

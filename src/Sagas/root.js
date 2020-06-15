@@ -8,13 +8,14 @@ import editUser from './editUser';
 import deleteUser from './deleteUser';
 import loginFromCreate from './loginFromCreate';
 import loginFromedit from './loginFromEdit';
+import addCourseToUser from './addCourseToUser';
+import logoutFromDelete from './logoutFromDelete';
 // Service manager
 import searchServiceById from './searchServiceById'
 
 export default function* () {
   // Juntar las sagas
   yield all([
-    
     // User sagas
     editUser(),
     searchUser(),
@@ -22,7 +23,8 @@ export default function* () {
     deleteUser(),
     loginFromCreate(),
     loginFromedit(),
-
+    addCourseToUser(),
+    logoutFromDelete(),
     // Service sagas
     searchServices(),
     searchServiceById()

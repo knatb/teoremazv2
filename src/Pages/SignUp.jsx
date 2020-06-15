@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+// Password hash
+import sha512 from 'js-sha512';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { createUserReq } from '../Actions/user';
@@ -59,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     width: '60%'
+  },
+  optionLink: {
+    color: '#541a75',
+    fontWeight: 'bold'
   }
 }));
 
@@ -123,11 +129,12 @@ export default function SignUp() {
   });
 
   const registerHandler = () => {
+    let hashedPassword = sha512(txtPassword);
     dispatch(createUserReq({
       username: txtUserName,
       email: txtEMail,
       completeName: `${txtName}<=>${txtLName}`,
-      password: txtPassword,
+      password: hashedPassword,
       courses: []
     }));
   }
@@ -222,7 +229,6 @@ export default function SignUp() {
                   required
                   fullWidth
                   type="password"
-                  id="password"
                   label="Repite tu contraseña"
                   onChange={e => {
                     setTxtRepeatPass(e.target.value);
@@ -238,7 +244,6 @@ export default function SignUp() {
               disabled = {!isValid || loading}
               fullWidth
               variant="contained"
-              color="#D6770F"
               className={classes.submit}
               onClick={registerHandler}
             >
@@ -246,7 +251,8 @@ export default function SignUp() {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-              <NavLink 
+              <NavLink
+                className={classes.optionLink}
                 variant="body2" 
                 as={NavLink} 
                 to="/signin">

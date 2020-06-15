@@ -73,30 +73,12 @@ export default function ControlledExpansionPanels() {
   };
 
   const dispatch = useDispatch();
-  /*
-  https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf
-  https://proyecto-1.s3.amazonaws.com/Calculo-Diferencial.pdf
-  https://proyecto-1.s3.amazonaws.com/Cálcuclo-Patria.pdf
-  https://proyecto-1.s3.amazonaws.com/Cálculo-Integral.pdf
-  https://proyecto-1.s3.amazonaws.com/Cálculo-Schaum.pdf
-  https://proyecto-1.s3.amazonaws.com/Física por Paule Tippens 7ma Edicion revisada.pdf
-  https://proyecto-1.s3.amazonaws.com/Tortora-Anatomia_y_fisiologia_humana.pdf
-*/
   const updateButtons = (array) => {
     dispatch(setMaterial(array))
   }
 
   //Objecto general
-
-  var Calculo = [
-    {
-        name: 'Calculo Diferencial I',
-        link: 'https://proyecto-1.s3.amazonaws.com/Calculo-Diferencial.pdf'
-    },
-    {
-        name: 'Caculo Patria',
-        link: 'https://proyecto-1.s3.amazonaws.com/Cálcuclo-Patria.pdf'
-    },
+  var CalculoI = [    
     {
         name: 'Calculo Integral',
         link: 'https://proyecto-1.s3.amazonaws.com/Cálculo-Integral.pdf'
@@ -105,6 +87,16 @@ export default function ControlledExpansionPanels() {
         name: 'Calculo Schaum',
         link: 'https://proyecto-1.s3.amazonaws.com/Cálculo-Schaum.pdf'
     },
+  ]
+  var CalculoD = [
+    {
+      name: 'Calculo Diferencial I',
+      link: 'https://proyecto-1.s3.amazonaws.com/Calculo-Diferencial.pdf'
+    },
+    {
+        name: 'Caculo Patria',
+        link: 'https://proyecto-1.s3.amazonaws.com/Cálcuclo-Patria.pdf'
+    }
   ]
   var Algebra = [
     {
@@ -116,7 +108,7 @@ export default function ControlledExpansionPanels() {
     {
       name: 'Fisica por Paule Tippens',
       link: 'https://proyecto-1.s3.amazonaws.com/Física por Paule Tippens 7ma Edicion revisada.pdf'
-    },
+    }
   ]
  var Biología = [
     {
@@ -141,10 +133,10 @@ export default function ControlledExpansionPanels() {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid className={classes.grid}>
-            <Button className={classes.button}  onClick={() => {updateButtons(Calculo)}}>
+            <Button className={classes.button}  onClick={() => {updateButtons(CalculoI)}}>
               Cálculo Integral
             </Button>
-            <Button className={classes.button}  onClick={() => {updateButtons(Calculo)}}>
+            <Button className={classes.button}  onClick={() => {updateButtons(CalculoD)}}>
               Cálculo Diferencial
             </Button>
             <Button className={classes.button}  onClick={() => {updateButtons(Algebra)}}>
@@ -153,29 +145,7 @@ export default function ControlledExpansionPanels() {
          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      {/* Algebra 
-      <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header">
-          <Typography className={classes.heading}>ÁLGEBRA</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.expansionPanel} >
-         <Grid className={classes.grid}>
-            <Button className={classes.button} onClick={() => (updateButtons(Algebra))}>
-             Ecuaciones exponenciales
-            </Button>
-            <Button className={classes.button} onClick={() => ({})}>
-            Productos notables
-            </Button>
-            <Button className={classes.button} onClick={() => ({})}>
-            Fracciones algebraicas
-            </Button>
-         </Grid>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-       Ciencias Exactas y Naturales */}
+      {/*CIENCIAS EXACTAS Y NATURALES*/}
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -194,52 +164,6 @@ export default function ControlledExpansionPanels() {
          </Grid>        
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      {/* Biologia 
-      <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel4bh-content"
-          id="panel4bh-header">
-          <Typography className={classes.heading}>BIOLOGÍA</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.expansionPanel} >
-         <Grid className={classes.grid}>
-            <Button className={classes.button} onClick={() => ({})}>
-               Bioquimica
-            </Button>
-            <Button className={classes.button} onClick={() => ({})}>
-               BOTANICA
-            </Button>
-            <Button className={classes.button}  onClick={() => ({})}>
-               ECOLOGIA
-            </Button>
-         </Grid>
-        
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-       Fisica 
-      <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel5bh-content"
-          id="panel5bh-header">
-          <Typography className={classes.heading}>FÍSICA</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.expansionPanel} >
-         <Grid className={classes.grid}>
-            <Button className={classes.button}  onClick={() => ({})}>
-               Dinámica
-            </Button>
-            <Button className={classes.button}  onClick={() => ({})}>
-               Termodinamica
-            </Button>
-            <Button className={classes.button}  onClick={() => ({})}>
-               Electrostática
-            </Button>
-         </Grid>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      */}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { NavLink} from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import { resetUser, editUserReq, editUserReset } from "../Actions/user";
+import { resetUser, editUserReq, editUserReset, deleteUser } from "../Actions/user";
 //components
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 //  Styles
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { CircularProgress, Snackbar, Modal, Fade } from "@material-ui/core";
+import { sha512 } from "js-sha512";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,16 +68,35 @@ const useStyles = makeStyles((theme) => ({
   updateButton: {
     width: "100%",
   },
+
   modalBackground: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: '#00000088'
+    background: '#000000EE'
   },
   modal: {
     padding: '10px',
-    background: '#343434',
+    background: '#ffffff91',
     color: 'white'
+  },
+  modalButtonDelete: {
+    color: 'red',
+    border: 'solid red',
+    margin: 3,
+    '&:hover': {
+      background: 'red',
+      color: 'white'
+    }
+  },
+  modalButtonCancel: {
+    border: 'solid black',
+    background: 'white',
+    margin: 3
+  },
+  modalPassword: {
+    color: 'white',
+    margin: 3
   }
 }));
 
@@ -122,6 +142,8 @@ export default function CardAccount(props) {
   const [showIncorrectPass, setShowIncorrectPass] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const [passModal, setPassModal] = useState('');
+
   const restoreData = () => {
     setTxtName(completeName[0]);
     setTxtLName(completeName[1]);
@@ -148,14 +170,15 @@ export default function CardAccount(props) {
 
   const updateHandler = () => {
     // Will be hashed
-    let hashedFormPass = txtPassword;
+    let hashedFormPass = sha512(txtPassword);
     setShowIncorrectPass(false);
     if(hashedFormPass === user.password) {
+      let hashednewPass = sha512(txtNewPassword);
       let newUser = {
         username: user.username,
         email: txtEMail,
         completeName: txtName + '<=>' + txtLName,
-        password: txtNewPassword
+        password: hashednewPass
       }
       dispatch(editUserReq(newUser))
     } else {
@@ -163,10 +186,19 @@ export default function CardAccount(props) {
     }
   }
 
+  const deleteHandler = () => {
+    let hashedPass = sha512(passModal);
+    if(hashedPass === user.password)
+      dispatch(deleteUser(user));
+    else{
+      alert("Contraseña incorrecta");
+    }
+  }
+
   if(!isLoading && userCreated) {
-    console.log("Se creo shingon supuestamente...", `isLoading: ${isLoading}, userCreated: ${userCreated}`);
     setEditMode(false);
     dispatch(editUserReset());
+    restoreData();
   }
 
   return (
@@ -303,16 +335,14 @@ export default function CardAccount(props) {
                       }}
                       variant="contained"
                       className={classes.button}
-                    >
-                      CANCELAR
+                    > CANCELAR
                     </Button>,
                     <Button
                       key={2}
                       variant="contained"
                       className={classes.button}
                       onClick={() => {setShowModal(true)}}
-                    >
-                      Eliminar Cuenta
+                    > Eliminar Cuenta
                     </Button>,
                   ]
                 ) : (
@@ -351,10 +381,24 @@ export default function CardAccount(props) {
           <Fade in={showModal}>
             <Paper className={classes.modal}>
               <Typography>
-                ¿Deseas borrar tu usuario?
+                ¿Deseas borrar tu usuario?, 
+                NO PODRÁS DESHACER ESTA ACCIÓN
               </Typography>
-              <Button>SI, SÉ LO QUE HAGO</Button>
-              <Button onClick={() => {setShowModal(false)}}>NO, ME EQUIVOQUÉ</Button>
+              <TextField
+                varitant='outlined' 
+                required
+                fullWidth
+                value={passModal}
+                className={classes.modalPassword} 
+                type='password' 
+                placeholder='Esribe tu contraseña'
+                onChange={e => {
+                  setPassModal(e.target.value);
+                }}/>
+              <div>
+                <Button className={classes.modalButtonDelete} onClick={deleteHandler}>SI, SÉ LO QUE HAGO</Button>
+                <Button className={classes.modalButtonCancel} onClick={() => {setShowModal(false)}}>NO, ME EQUIVOQUÉ</Button>
+              </div>
             </Paper>
           </Fade>
       </Modal>

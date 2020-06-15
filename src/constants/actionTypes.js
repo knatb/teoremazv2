@@ -15,6 +15,7 @@ export const EDIT_USER_REQ = 'EDIT_USER_REQ';
 export const EDIT_USER_COMPLETE = 'EDIT_USER_COMPLETE';
 export const EDIT_USER_ERROR = 'EDIT_USER_ERROR';
 export const EDIT_USER_RESET = 'EDIT_USER_RESET';
+export const ADD_COURSE_REQ = 'ADD_COURSE_REQ';
 
 // Delete User Process
 export const DELETE_USER_REQ ='DELETE_USER_REQ';

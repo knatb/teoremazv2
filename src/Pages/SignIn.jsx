@@ -21,6 +21,7 @@ import {
   withStyles,
   makeStyles
 } from '@material-ui/core/styles';
+import { sha512 } from 'js-sha512';
 
 //https://material-ui.com/components/text-fields/#customized-inputs
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     width: '60%'
+  },
+  optionLink: {
+    color: '#541a75',
+    fontWeight:'bold'
   }
 }));
 
@@ -101,10 +106,13 @@ export default function SignIn() {
   
   const dispatch = useDispatch();
 
-  const handleLogin = () => dispatch(searchUser({
-    username: txtUserN,
-    password: txtPass
-  }));
+  const handleLogin = () => {
+    let hashedPass = sha512(txtPass)
+    dispatch(searchUser({
+      username: txtUserN,
+      password: hashedPass
+    }))
+  };
 
   return (
     <Grid>
@@ -163,8 +171,8 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <NavLink variant="body2" as={NavLink} to="/signup">
-                  REGÍSTRATE
+                <NavLink className={classes.optionLink} variant="body2" as={NavLink} to="/signup">
+                  ¿NO TIENES CUENTA?, REGÍSTRATE
                 </NavLink>
               </Grid>
             </Grid>

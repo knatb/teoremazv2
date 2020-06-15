@@ -8,6 +8,7 @@ import {
   // Update an user
   EDIT_USER_REQ,
   EDIT_USER_RESET,
+  ADD_COURSE_REQ,
   // Delete an user
   DELETE_USER_REQ 
 } from '../constants/actionTypes';
@@ -45,5 +46,6 @@ export const createUserReset = () => ({
 });
 
 export const addCourse = payload => ({
-
+  type: ADD_COURSE_REQ,
+  payload
 })

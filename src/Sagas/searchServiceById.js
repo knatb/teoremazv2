@@ -12,25 +12,42 @@ import {
 
 function * searchServiceById(action) {
   const data = action.payload;
-  try {
-    
-    const result = yield call (apiCall, 'GET', `/${data.course}` , null, null);
-    console.log(result)
-    if (result.data.Error) {
-      throw new Error(result.data.Eror);
+  if (data.course){
+    try {
+      const result = yield call (apiCall, 'GET', `/${data.course}` , null, null);
+      if (result.data.Error) {
+        throw new Error(result.data.Eror);
+      }
+      yield put({
+        type: SEARCH_SERVICES_BY_ID_COMPLETE,
+        payload: result.data
+      });
+    } catch (e) {
+      yield put({
+        type: SEARCH_SERVICES_BY_ID_ERROR,
+        payload: e
+      })
     }
-    console.log(result.data)
-    yield put({
-      type: SEARCH_SERVICES_BY_ID_COMPLETE,
-      payload: result.data
-    });
-    console.log(result.data)
-  } catch (e) {
-    yield put({
-      type: SEARCH_SERVICES_BY_ID_ERROR,
-      payload: e
-    })
   }
+  else {
+    try {
+      const result = yield call (apiCall, 'GET', `/${data.id}` , null, null);
+      console.log(result)
+      if (result.data.Error) {
+        throw new Error(result.data.Eror);
+      }
+      yield put({
+        type: SEARCH_SERVICES_BY_ID_COMPLETE,
+        payload: result.data
+      });
+    } catch (e) {
+      yield put({
+        type: SEARCH_SERVICES_BY_ID_ERROR,
+        payload: e
+      })
+    }
+  }
+  
 }
 
 export default function* () {

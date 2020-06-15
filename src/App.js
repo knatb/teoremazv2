@@ -29,9 +29,11 @@ const useStyles = makeStyles({
   mainbody: {
     backgroundColor: '#2F0055',
     backgroundImage: `url(${bgImg})`,
-    //backgroundRepeat: 'repeat',
     backgroundSize: '100% auto',
-    minHeight: '100%'
+    minHeight: '100vh'
+  },
+  contentApp: {
+    minHeight: '60vh'
   }
 });
 
@@ -48,7 +50,7 @@ function App(props) {
       <div className={styles.mainbody}>
         <Router >
           <AppBar />
-            <Container className={`app-content`}>
+            <Container className={`app-content ${styles.contentApp}`}>
               <Switch>
                 {/* when user accesses /dashboard, load Dashboard */}
                 <Route path='/dashboard'>

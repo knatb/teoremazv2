@@ -2,7 +2,8 @@ import {
   EDIT_USER_REQ,
   EDIT_USER_COMPLETE,
   EDIT_USER_ERROR,
-  EDIT_USER_RESET
+  EDIT_USER_RESET,
+  ADD_COURSE_REQ
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -18,6 +19,11 @@ export default function (state = initialState, action) {
         ...state,
         loading: true
       };
+    case ADD_COURSE_REQ:
+      return {
+        ...state,
+        loading: true
+      }
     case EDIT_USER_ERROR:
       return {
         ...state,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchServiceById } from '../Actions/service';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'center',
     padding: theme.spacing(2),
-    margin: 'auto',
+    margin: '20px',
     alignItems: 'center',
     maxWidth: '100%',
     backgroundColor: '#646464b3',
@@ -52,22 +52,7 @@ export default function ComplexGrid(props) {
   const user = useSelector((state) => _.get(state, "user.results"));
   const classes = useStyles();
   var texto = 'Comprar'
-  const [idselected, setId] = useState('idSelected')
-  useEffect(() => {
-       dispatch(searchServiceById({ idselected }));
-  })
 
-  // const sendRequest = useCallback(async () => {
-  //   // don't send again while we are sending
-  //   if (isSending) return
-  //   // update state
-  //   setIsSending(true)
-  //   // send the actual request
-  //   await API.sendRequest()
-  //   // once the request is sent, update state again
-  //   if (isMounted.current) // only update if we are still mounted
-  //     setIsSending(false)
-  // }, [isSending])
   var a = 0
   const{
     imageurl,
@@ -93,12 +78,33 @@ export default function ComplexGrid(props) {
   }
 
   function GetService() {
-    useEffect(() => {
-      dispatch(searchServiceById({ id }));
-    });
+    console.log(id)
+    dispatch(searchServiceById({ id }));
   }
 
-    
+  function Activo() {
+    if (a === 1) {
+      return (
+        <Button variant="contained" disabled className={classes.button} component={NavLink} to='/payment'>
+           {texto}
+        </Button>
+      )
+    }
+    else if(a===2){
+      return (
+        <Button variant="contained" className={classes.button} component={NavLink} to='/signin'>
+           {texto}
+        </Button>
+      )
+    }
+    else {
+      return (
+      <Button variant="contained" className={classes.button} onClick={GetService} component={NavLink} to='/payment'>
+           {texto}
+        </Button>
+      )
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -135,27 +141,5 @@ export default function ComplexGrid(props) {
     </div>
   );
 
-  function Activo() {
-    if (a === 1) {
-      return (
-        <Button variant="contained" disabled className={classes.button} component={NavLink} to='/payment'>
-           {texto}
-        </Button>
-      )
-    }
-    else if(a===2){
-      return (
-        <Button variant="contained" className={classes.button} component={NavLink} to='/signin'>
-           {texto}
-        </Button>
-      )
-    }
-    else {
-      return (
-        <Button variant="contained" className={classes.button} onClick={() => setId(idselected === id )} component={NavLink} to='/payment'>
-           {texto}
-        </Button>
-      )
-    }
-  }
+  
 }

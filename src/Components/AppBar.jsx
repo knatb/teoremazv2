@@ -35,8 +35,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-//ARREGLAR ICONO DE MENU AL LOGO DE TEOREMAZ
-
 export default function ButtonAppBar() {
   const classes = useStyles();
 

@@ -14,11 +14,11 @@ import apiCall from '../Apis/ApiUser';
 import { result } from 'lodash';
 
 function * deleteUser(action) {
-  let username = action.payload;
+  let {username} = action.payload;
   try {
     yield call(apiCall, 'DELETE', `/${username}`);
 
-    if(result.data.Error) {
+    if(result.data?.Error) {
       throw new Error(result.data.Error);
     }
 

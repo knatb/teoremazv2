@@ -1,4 +1,9 @@
 import React from 'react';
+//Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { addCourse } from '../Actions/user';
+import _ from 'lodash';
+// Components
 import { makeStyles } from '@material-ui/core/styles';
 //import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -84,7 +89,18 @@ function getStepContent(step) {
 
 export default function Checkout() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   let history = useHistory();
+
+
+  const selectedService = useSelector(state => _.get(state, 'servicebyid.result'));
+  const isLoading = useSelector(state => _.get(state, 'servicebyid.loading'));
+
+  const user = useSelector(state => _.get(state, 'user.results'));
+
+  if(!selectedService && !isLoading){
+    history.push('/services')
+  }
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [idselected] = React.useState();
@@ -129,7 +145,7 @@ export default function Checkout() {
                 <Typography variant="subtitle1">
                 Tu compra se ha realizado con exito, esperamos que disfrutes de todos los servicios que te ofrece teoremaz
                 </Typography>
-                <Button onClick={handleAccount} classname={classes.accbtn}>Ir a mi cuenta</Button>
+                <Button onClick={handleAccount} className={classes.accbtn}>Ir a mi cuenta</Button>
                 </div>
               </React.Fragment>
             ) : (
@@ -143,7 +159,15 @@ export default function Checkout() {
                   )}
                   <Button
                     variant="contained"
-                    onClick={handleNext}
+                    onClick={activeStep === steps.length - 1 ? () => {
+                      handleNext();
+                      let updatedCourses = [...user.courses];
+                      updatedCourses.push(selectedService.id);
+                      dispatch(addCourse({
+                        username: user.username,
+                        courses: updatedCourses
+                      }))
+                    } : handleNext}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? 'Finalizar orden' : 'Siguiente'}
@@ -153,7 +177,6 @@ export default function Checkout() {
             )}
           </React.Fragment>
         </Paper>
-        {/*<Copyright />*/}
       </main>
     </React.Fragment>
   );

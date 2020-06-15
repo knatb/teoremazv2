@@ -5,14 +5,30 @@ import _ from 'lodash';
 import { searchServices } from '../Actions/service';
 import MyCarousel from '../Components/Carousel';
 import CardInfo from '../Components/CardInfo';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import ProgressBar from '../Components/ProgressBar';
+import { makeStyles } from '@material-ui/core/styles';
 
 export default function Services() {
 
   const dispatch = useDispatch();
   const loading = useSelector(state => _.get(state, 'service.loading'));
   const results = useSelector(state => _.get(state, 'service.result'));
-  const error = useSelector(state => _.get(state, 'service.error'));
+  const error = useSelector(state => _.get(state, 'service.error'));  
+   
+  //CONSTANTES PARA EL PROGRESS VAR 
+  const [progress, setProgress] = React.useState(0);
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+    },
+    bar: {
+      borderRadius: 5,
+      backgroundColor: '#D6770F',
+    },
+  });
+  
+  const classes = useStyles();
+
   useEffect(() => {
     if (
       (!loading && !results) &&
@@ -20,23 +36,42 @@ export default function Services() {
     ) {
       dispatch(searchServices());
     }
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
+
+    return () => {
+      clearInterval(timer);
+    };
   });
 
   const renderServices = () =>  {
-    if (results && results.length >= 1){
+   
+    if (progress > 30 && results && results.length >= 1){
       return results.map((service, index) => (
-	<Grid item>
-        <CardInfo key={index} {...service}/>
-      </Grid>
+      <div>
+         <Grid key={index} item>
+            <CardInfo {...service}/>
+         </Grid>
+      </div>
       ))
     }
+  
     else if (loading) {
-      return <LinearProgress size={80}/>
+      return  <div className={classes.root}>
+      <ProgressBar />
+    </div>
     }
     else if (error) {
       return <h1 severity="error">Oooops, something terrible has happened! :/</h1>;
     }
-    return <div></div>
+    return <ProgressBar />
   };
 
   return ( 
