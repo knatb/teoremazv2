@@ -9,7 +9,7 @@ import service from './service';
 // Material manager
 import setMaterial from './material';
 
-import servicebyid from './servicebyid';
+import servicebyid from './serviceById';
 // Mis archivos reducers
 
 const rootReducer = combineReducers({
