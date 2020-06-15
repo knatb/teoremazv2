@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PaymentForm from '../Payment/PaymentForm';
 import Review from '../Payment/Review';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -50,7 +51,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#D6770F',
   },
   avatars: {
-    height: '250px'
+    height: '200px'
+  },
+  gracias: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+  gracias2: {
+    alignItems: 'center',
+
+  },
+  accbtn: {     
+    backgroundColor: '#D6770F',
+    color: 'white'
   }
 }));
 
@@ -69,7 +84,11 @@ function getStepContent(step) {
 
 export default function Checkout() {
   const classes = useStyles();
+  let history = useHistory();
+
   const [activeStep, setActiveStep] = React.useState(0);
+  const [idselected] = React.useState();
+  console.log(idselected)
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -78,6 +97,10 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  const handleAccount = () => {
+    history.push('/account');
+  }
 
   return (
     <React.Fragment>
@@ -96,14 +119,18 @@ export default function Checkout() {
           <React.Fragment>
             {activeStep === steps.length ? (
               <React.Fragment>
-                <img className={classes.avatars} alt="avatar" src={require('../images/monito.png')}></img>
+                <div className={classes.gracias}>                
+                  <img className={classes.avatars} alt="avatar" src={require('../images/monito.png')}/>
+                </div>
+                <div className={classes.gracias2}>
                 <Typography variant="h5" gutterBottom>
                   Gracias por elegirnos!
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                Tu compra se ha realizado con exito, esperamos que disfrutes de todos los servicios que te ofrece teoremaz
                 </Typography>
+                <Button onClick={handleAccount} classname={classes.accbtn}>Ir a mi cuenta</Button>
+                </div>
               </React.Fragment>
             ) : (
               <React.Fragment>

@@ -1,39 +1,34 @@
-import { 
-  EDIT_USER_REQ,
-  EDIT_USER_COMPLETE,
-  EDIT_USER_ERROR,
-  EDIT_USER_RESET
+import {
+  DELETE_USER_REQ,
+  DELETE_USER_COMPLETE,
+  DELETE_USER_ERROR
 } from '../constants/actionTypes';
 
 const initialState = {
-  loding: false,
-  results: null,
+  loading: false,
+  result: null,
   error: null
-};
+}
 
 export default function (state = initialState, action) {
-  switch (action.type){
-    case EDIT_USER_REQ: 
+  switch (action.type) {
+    case DELETE_USER_REQ:
       return {
         ...state,
         loading: true
       };
-    case EDIT_USER_ERROR:
+    case DELETE_USER_COMPLETE:
       return {
         ...state,
         loading: false,
-        error: action.payload
+          result: action.payload
       };
-    case EDIT_USER_COMPLETE:
+    case DELETE_USER_ERROR:
       return {
         ...state,
         loading: false,
-        results: action.payload
+          error: action.payload
       };
-    case EDIT_USER_RESET:
-      return {
-        ...initialState
-      }
     default:
       return state;
   }

@@ -106,21 +106,18 @@ export default function ControlledExpansionPanels() {
         link: 'https://proyecto-1.s3.amazonaws.com/Cálculo-Schaum.pdf'
     },
   ]
-
   var Algebra = [
     {
-        name: 'Algebra',
+        name: 'Algebra Conamat',
         link: 'https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf'
     }
   ]
-
  var Fisica = [
     {
-      name: 'Fisica',
+      name: 'Fisica por Paule Tippens',
       link: 'https://proyecto-1.s3.amazonaws.com/Física por Paule Tippens 7ma Edicion revisada.pdf'
     },
   ]
-
  var Biología = [
     {
       name: 'Anatomía y Fisiología',
@@ -134,29 +131,29 @@ export default function ControlledExpansionPanels() {
       <Paper className={classes.paperSubject}>
         <Typography className={classes.titleSub}>MATERIAS</Typography>
       </Paper>
-      {/* Cálculo */}
+      {/* Matemáticas */}
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
           id="panel1bh-header">
-          <Typography className={classes.heading}>CÁLCULO</Typography>
+          <Typography className={classes.heading}>Matemáticas</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid className={classes.grid}>
             <Button className={classes.button}  onClick={() => {updateButtons(Calculo)}}>
-              Integral
+              Cálculo Integral
             </Button>
-            <Button className={classes.button}  onClick={() => (console.log("Diferencial"))}>
-              Diferencial
+            <Button className={classes.button}  onClick={() => {updateButtons(Calculo)}}>
+              Cálculo Diferencial
             </Button>
-            <Button className={classes.button}  onClick={() => (console.log("Hola"))}>
-              Límites
+            <Button className={classes.button}  onClick={() => {updateButtons(Algebra)}}>
+              Álgebra
             </Button>
          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      {/* Algebra */}
+      {/* Algebra 
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -166,7 +163,7 @@ export default function ControlledExpansionPanels() {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid className={classes.grid}>
-            <Button className={classes.button} onClick={() => ({})}>
+            <Button className={classes.button} onClick={() => (updateButtons(Algebra))}>
              Ecuaciones exponenciales
             </Button>
             <Button className={classes.button} onClick={() => ({})}>
@@ -178,30 +175,26 @@ export default function ControlledExpansionPanels() {
          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      {/* Quimica */}
-      <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+       Ciencias Exactas y Naturales */}
+      <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3bh-content"
-          id="panel3bh-header">
-          <Typography className={classes.heading}>QUÍMICA</Typography>
+          aria-controls="panel2bh-content"
+          id="panel2bh-header">
+          <Typography className={classes.heading}>Ciencias Exactas y Naturales</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionPanel} >
          <Grid className={classes.grid}>
-            <Button className={classes.button} onClick={() => ({})}>
-              El método científico
+            <Button className={classes.button} onClick={() => (updateButtons(Fisica))}>
+              Física
             </Button>
-            <Button className={classes.button} onClick={() => ({})}>
-              Ácidos y bases
+            <Button className={classes.button} onClick={() => (updateButtons(Biología))}>
+              Biología
             </Button>
-            <Button className={classes.button} onClick={() => ({})}>
-              Solubilidad
-            </Button>
-         </Grid>
-        
+         </Grid>        
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      {/* Biologia */}
+      {/* Biologia 
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -224,7 +217,7 @@ export default function ControlledExpansionPanels() {
         
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      {/* Fisica */}
+       Fisica 
       <ExpansionPanel className={classes.expansionPanel} expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -246,6 +239,7 @@ export default function ControlledExpansionPanels() {
          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
+      */}
     </div>
   );
 }

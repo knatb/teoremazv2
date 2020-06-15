@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { useHistory } from 'react-router-dom';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -43,10 +44,11 @@ export default function PaymentForm() {
             fullWidth
             autoComplete="cc-number"
             className={classes.title}
+            maxLength={10}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CssTextField required id="expDate" label="Fecha de Expiración" fullWidth autoComplete="cc-exp" className={classes.title}/>
+          <CssTextField required id="expDate" label="Fecha de Expiración" fullWidth autoComplete="cc-exp" className={classes.title} maxLength={5}/>
         </Grid>
         <Grid item xs={12} md={6}>
           <CssTextField
@@ -56,6 +58,7 @@ export default function PaymentForm() {
             fullWidth
             autoComplete="cc-csc"
             className={classes.title}
+            maxLength={3}
           />
         </Grid>
         <Grid item xs={12}>

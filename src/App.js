@@ -1,7 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import Container from '@material-ui/core/Container';
-import AppBar from './Components/AppBar';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,6 +7,8 @@ import {
   Redirect
 } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles'
+import Container from '@material-ui/core/Container';
+import AppBar from './Components/AppBar';
 import Footer from './Components/Footer';
 import PacketTable from './Components/PacketTable';
 import Dashboard from './Pages/Dashboard';

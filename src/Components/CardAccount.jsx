@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { NavLink} from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import { resetUser, editUserReq } from "../Actions/user";
+import { resetUser, editUserReq, editUserReset } from "../Actions/user";
 //components
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -12,7 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 //  Styles
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Snackbar, Modal, Fade } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +67,17 @@ const useStyles = makeStyles((theme) => ({
   updateButton: {
     width: "100%",
   },
+  modalBackground: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#00000088'
+  },
+  modal: {
+    padding: '10px',
+    background: '#343434',
+    color: 'white'
+  }
 }));
 
 const CssTextField = withStyles({
@@ -92,11 +104,13 @@ export default function CardAccount(props) {
 
   // User from store
   const user = useSelector((state) => _.get(state, "user.results"));
-  const isLoading = useSelector((state) => _.get(state, "editUser.loading"))
+  const isLoading = useSelector((state) => _.get(state, "editUser.loading"));
+  const userCreated = useSelector((state) => _.get(state, "editUser.results"));
   // Data state
-  const [txtUserName, setTxtUserName] = useState(user?.username);
-  const [txtName, setTxtName] = useState(user?.completeName);
-  const [txtLName, setTxtLName] = useState("");
+  const [txtUserName] = useState(user?.username);
+  const completeName = user?.completeName.split("<=>");
+  const [txtName, setTxtName] = useState(completeName === undefined ? '' : completeName[0]);
+  const [txtLName, setTxtLName] = useState(completeName === undefined ? '' : completeName[1]);
   const [txtEMail, setTxtEmail] = useState(user?.email);
   const [txtPassword, setTxtPassword] = useState("");
   const [txtNewPassword, setTxtNewPassword] = useState("");
@@ -105,9 +119,12 @@ export default function CardAccount(props) {
   const [isValid, setIsValid] = useState(false);
   const [passwordValid, setPassValid] = useState(true);
 
+  const [showIncorrectPass, setShowIncorrectPass] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const restoreData = () => {
-    setTxtName(user?.completeName);
-    setTxtLName("");
+    setTxtName(completeName[0]);
+    setTxtLName(completeName[1]);
     setTxtEmail(user?.email);
     setTxtPassword("");
     setTxtNewPassword("");
@@ -119,11 +136,11 @@ export default function CardAccount(props) {
   useEffect(() => {
     if (editMode) {
       setIsValid(
-        txtName.length > 0 &&
-          txtLName.length > 0 &&
-          txtEMail.length > 0 &&
-          txtPassword.length > 0 &&
-          txtRepeatPass.length > 0 &&
+        txtName?.length > 0 &&
+          txtLName?.length > 0 &&
+          txtEMail?.length > 0 &&
+          txtPassword?.length > 0 &&
+          txtRepeatPass?.length > 0 &&
           passwordValid
       );
     }
@@ -132,7 +149,7 @@ export default function CardAccount(props) {
   const updateHandler = () => {
     // Will be hashed
     let hashedFormPass = txtPassword;
-    
+    setShowIncorrectPass(false);
     if(hashedFormPass === user.password) {
       let newUser = {
         username: user.username,
@@ -141,7 +158,15 @@ export default function CardAccount(props) {
         password: txtNewPassword
       }
       dispatch(editUserReq(newUser))
+    } else {
+      setShowIncorrectPass(true);
     }
+  }
+
+  if(!isLoading && userCreated) {
+    console.log("Se creo shingon supuestamente...", `isLoading: ${isLoading}, userCreated: ${userCreated}`);
+    setEditMode(false);
+    dispatch(editUserReset());
   }
 
   return (
@@ -150,7 +175,7 @@ export default function CardAccount(props) {
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h4">Bienvenido: {txtUserName}</Typography>
+              <Typography variant="h4">¡Bienvenido {txtUserName} !</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <CssTextField
@@ -251,8 +276,7 @@ export default function CardAccount(props) {
                   <Typography
                     style={{ opacity: Number(!passwordValid), color: '#b82204' }}
                     variant="body2"
-                  >
-                    Las contraseñas no coinciden
+                  > Las contraseñas no coinciden
                   </Typography>
                 </Grid>
                 <Grid className={classes.updateButtonContainer} item xs={12}>
@@ -261,8 +285,7 @@ export default function CardAccount(props) {
                     variant="contained"
                     className={`${classes.button} ${classes.updateButton}`}
                     onClick={ updateHandler }
-                  >
-                    Actualizar Usuario
+                  > Actualizar Usuario
                     {isLoading ? <CircularProgress/> : null}
                   </Button>
                 </Grid>
@@ -287,6 +310,7 @@ export default function CardAccount(props) {
                       key={2}
                       variant="contained"
                       className={classes.button}
+                      onClick={() => {setShowModal(true)}}
                     >
                       Eliminar Cuenta
                     </Button>,
@@ -298,24 +322,42 @@ export default function CardAccount(props) {
                     }}
                     variant="contained"
                     className={classes.button}
-                  >
-                    EDITAR CUENTA
+                  > EDITAR CUENTA
                   </Button>
                 )}
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  onClick={() => {
-                    dispatch(resetUser());
-                  }}
-                >
-                  Cerrar Sesión
-                </Button>
+                  <Button
+                    variant="contained"
+                    component={NavLink}
+                    to='/signin'
+                    className={classes.button}
+                    onClick={() => {
+                      dispatch(resetUser());
+                    }}
+                  > Cerrar Sesión
+                  </Button>
               </ButtonGroup>
             </Grid>
           </Grid>
         </form>
       </Paper>
+      <Snackbar
+        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+        open={showIncorrectPass}
+        message="Contraseña incorrecta"
+      />
+      <Modal
+        open={showModal}
+        className={classes.modalBackground}>
+          <Fade in={showModal}>
+            <Paper className={classes.modal}>
+              <Typography>
+                ¿Deseas borrar tu usuario?
+              </Typography>
+              <Button>SI, SÉ LO QUE HAGO</Button>
+              <Button onClick={() => {setShowModal(false)}}>NO, ME EQUIVOQUÉ</Button>
+            </Paper>
+          </Fade>
+      </Modal>
     </div>
   );
 }

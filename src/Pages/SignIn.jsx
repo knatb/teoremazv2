@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUser } from '../Actions/user';
-import qs from 'query-string';
 import _ from 'lodash';
 // Page routing Redirection
 import { useHistory } from 'react-router-dom';
@@ -17,11 +16,6 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { NavLink } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress'
-
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 //  Styles
 import {
   withStyles,
@@ -100,6 +94,7 @@ export default function SignIn() {
       history.push('/account');
     }
   });
+
   // Datos del Control
   const [txtUserN, setTxtUserN] = useState("");
   const [txtPass, setTxtPass] = useState("");

@@ -1,4 +1,5 @@
 import React from 'react';
+//components
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -49,7 +50,7 @@ export default function CardCourses(props) {
   const classes = useStyles();
 
   const{
-    imageUrl,
+    imageurl,
     name,
     duration,
     description,
@@ -61,7 +62,7 @@ export default function CardCourses(props) {
       <Paper className={classes.paper}>
         <Grid alignItems="center" spacing={2}>
           <Grid item >
-              <img className={classes.img} alt="course" src={imageUrl}/>
+              <img className={classes.img} alt="course" src={imageurl}/>
           </Grid>
           <Grid item xs container direction="column" alignItems="center" className={classes.courses}>
             <Typography gutterBottom variant="subtitle1" className={classes.titles}>

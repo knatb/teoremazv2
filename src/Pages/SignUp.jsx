@@ -126,7 +126,7 @@ export default function SignUp() {
     dispatch(createUserReq({
       username: txtUserName,
       email: txtEMail,
-      completeName: `${txtName} ${txtLName}`,
+      completeName: `${txtName}<=>${txtLName}`,
       password: txtPassword,
       courses: []
     }));

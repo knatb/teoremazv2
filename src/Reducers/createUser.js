@@ -1,7 +1,8 @@
 import {
   CREATE_USER_REQ,
    CREATE_USER_COMPLETE, 
-   CREATE_USER_ERROR
+   CREATE_USER_ERROR,
+   CREATE_USER_RESET
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -29,6 +30,10 @@ export default function (state = initialState, action) {
         loading: false,
         results: action.payload
       };
+    case CREATE_USER_RESET:
+      return {
+        ...initialState
+      }
     default:
       return state;
   }

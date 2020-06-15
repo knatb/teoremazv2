@@ -31,7 +31,7 @@ export default function Services() {
       ))
     }
     else if (loading) {
-      return <LinearProgress size={80} color="primary"/>
+      return <LinearProgress size={80}/>
     }
     else if (error) {
       return <h1 severity="error">Oooops, something terrible has happened! :/</h1>;

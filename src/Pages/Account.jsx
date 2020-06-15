@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
+import { searchServiceById } from '../Actions/service';
+import { createUserReset } from '../Actions/user';
 // Routing
 import { useHistory } from 'react-router-dom';
 // Components
@@ -10,8 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import CardAccount from '../Components/CardAccount';
+import Button from '@material-ui/core/Button';
 import CardCourses from '../Components/CardMyCourses';
-import { searchServiceById } from '../Actions/service';
+import { NavLink} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +30,27 @@ const useStyles = makeStyles((theme) => ({
   titleSub: {
   fontSize: '5em',
   fontWeight: 'bold'
+  },
+  button: {
+    margin: theme.spacing(1),
+    background: '#D6770F',
+    color: 'white',
+    width: 100,
+    height: 50,
+    verticalAlign : 'center'
+  },
+  needbuy: {
+    color: 'white',
+    textAlign: 'center'
+  },
+  centered:
+  {
+    alignContent: 'center',
+    textAlign: 'center'
+  },
+  Imagen: {
+    height: '100px',
+    width: '75px'
   }
 }));
 
@@ -34,15 +58,16 @@ export default function Account() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const loading = useSelector(state => _.get(state, 'serviceById.loading'));
-  const result = useSelector(state => _.get(state, 'serviceById.result'));
-  const error = useSelector(state => _.get(state, 'serviceById.error'));
-
   const user = useSelector((state) => _.get(state, "user.results"));
+  const createdUser = useSelector((state) => _.get(state, "createUser.results"));
   let history = useHistory();
-  console.log(user?.courses.length)
+
   if(!user) {
     history.push('/signin')
+  }
+
+  if(createdUser) {
+    dispatch(createUserReset());
   }
   
 
@@ -55,40 +80,43 @@ export default function Account() {
         </Grid>
         <Grid container spacing={3}>        
           <Grid item xs>
-            <CardAccount      
-              imageurl={require('../images/man-user.png')}
-              username="ChrisNotDefined"
-              email="chris@gmail.com"
-              firstName="Christopher"
-              lastName="Álvarez"
-              password="meperd0nas"
-            />
+            <CardAccount />
           </Grid>
           <Grid item xs>
-          {(() => {
-            console.log("entro")
-            if (user.courses.length ===0) {
-              console.log("entro")
-            }
-            else {
-              for (var b = 0; b<user.courses.length; b++) {
-                Courses(user.courses[b]);
-              }
-            }
-            })}
-            <CardCourses 
-              imageUrl={require('../images/PAQUETE1.png')}
-              name="IPN - UG"
-              duration="4 meses"
-              description="Te has inscritó al curso propedéutico para presentar tu examen de admisión en el Instituo Politecnico Nacional o la Universidad de Guanajuato! estudiarás las materias de tu temario en las cuales te proporcionaremos información con una guía digital, una guía interactiva y libros digitales para que puedas estudiar desde donde estés."
-            />
+          {Validar()}
           </Grid> 
         </Grid>     
     </Grid>
   );
 
+  function Validar () {
+    if(user){
+    if (user.courses.length !==0) {
+      for (var b = 0; b<user.courses.length; b++) {
+        return Courses(user.courses[b]);
+      }
+    }
+    else{
+    return (
+      <Grid className={classes.centered}>
+      <Typography variant='h3' className={classes.needbuy}>Usted no cuenta con ningun servicio comprado</Typography>
+      <Typography variant='subtitle2' className={classes.needbuy}>Adquiere un servicio dando click en el siguiente boton</Typography>
+      <Button variant="contained" className={classes.button} component={NavLink} to='/services'>
+           Servicios
+        </Button>
+      </Grid>
+    
+    );
+    }
+  }
+  }
+
   function Courses (course) {
-    dispatch(searchServiceById({ course }));
+    useEffect(() => {
+      dispatch(searchServiceById({ course }));
+    });
+    const result = useSelector(state => _.get(state, 'servicebyid.result'));
+    // console.log(result)
     return (
       <div>
         <CardCourses {...result}/>

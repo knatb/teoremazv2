@@ -3,10 +3,13 @@ import { combineReducers } from 'redux';
 import user from './user';
 import createUser from './createUser';
 import editUser from './editUser';
+import deleteUser from './deleteUser';
 // Service manager
 import service from './service';
 // Material manager
 import setMaterial from './material';
+
+import servicebyid from './servicebyid';
 // Mis archivos reducers
 
 const rootReducer = combineReducers({
@@ -15,10 +18,12 @@ const rootReducer = combineReducers({
   user,
   createUser,
   editUser,
+  deleteUser,
   //Service managing
   service,
   // Material managing
-  setMaterial
+  setMaterial,
+  servicebyid
 });
 
 export default rootReducer;

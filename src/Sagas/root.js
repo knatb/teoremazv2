@@ -5,18 +5,26 @@ import searchServices from './searchServices';
 import searchUser from './searchUser';
 import createUser from './createUser';
 import editUser from './editUser';
+import deleteUser from './deleteUser';
 import loginFromCreate from './loginFromCreate';
+import loginFromedit from './loginFromEdit';
+// Service manager
+import searchServiceById from './searchServiceById'
 
 export default function* () {
+  // Juntar las sagas
   yield all([
-    // Juntar las sagas
+    
     // User sagas
     editUser(),
     searchUser(),
     createUser(),
+    deleteUser(),
     loginFromCreate(),
+    loginFromedit(),
 
     // Service sagas
-    searchServices()
+    searchServices(),
+    searchServiceById()
   ]);
 }

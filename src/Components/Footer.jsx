@@ -7,7 +7,8 @@ const useStyles = makeStyles({
   grid: {
     background: "#343434",
     position: "sticky",
-    padding: '15px 30px'
+    padding: '15px 30px',
+    margin: '30px 0px 0px 0px'
   },
   footer : {    
     color: 'white',

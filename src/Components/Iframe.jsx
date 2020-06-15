@@ -1,7 +1,7 @@
 import React from 'react'
 import PDFViewer from 'pdf-viewer-reactjs'
 import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress'
+import ProgressBar from './ProgressBar';
 
 const useStyles = makeStyles((theme) => ({ 
     div: {
@@ -23,11 +23,11 @@ const ExamplePDFViewer = (props) => {
     return (
         <div className={styles.div}>
             <PDFViewer
-                navbarOnTop='true'
+                navbarOnTop={true}
                 document={{
                     url: src
                 }}
-                loader={<LinearProgress/>}
+                loader={<ProgressBar/>}
                 css={styles.PDF}
             />
         </div>

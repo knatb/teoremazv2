@@ -8,8 +8,9 @@ import Iframe from '../Components/Iframe';
 //Redux
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
-import { flexbox } from '@material-ui/system';
 
+import { Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 /*
 https://proyecto-1.s3.amazonaws.com/Algebra-CONAMAT.pdf
 https://proyecto-1.s3.amazonaws.com/Calculo-Diferencial.pdf
@@ -35,17 +36,17 @@ const useStyles = makeStyles({
   },
   button: {
     background: '#8e24aa',
-     width: '100%',
-     color: 'White',
-     '&:hover': {
-       backgroundColor: 'White',
-       color: 'Black'
-      },
-      alignContent: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      margin: '3px 3px 3px 3px',
-    },
+    width: '250px',
+    color: 'White',
+    '&:hover': {
+      backgroundColor: 'White',
+      color: 'Black'
+     },
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '3px 3px 3px 3px',
+  },
     img: {
       margin: 'auto',
       display: 'block',
@@ -53,7 +54,6 @@ const useStyles = makeStyles({
       maxHeight: '100%',
     },
     books: {
-      width: '298px',
       color: 'white',
       background: '#2F0055',
       margin: '8px 0px 0px 0px',
@@ -61,21 +61,38 @@ const useStyles = makeStyles({
       minHeight: '500px',
       aligncenter: 'center'
     },
-    pdf: { }
+    pdf: { },
+    blockedContainer:{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: '50vw',
+      margin: 5,
+      background: '#343434CC',
+      color: 'white'
+    },
+    blockedText: {
+      margin: 5,
+      fontSize: '2em'
+    }
 })
 
-export default function Material(props) {
+export default function Material() {
   var styles = useStyles();
+  let history = useHistory();
 
   const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
   const [pdfUrl, setPdfUrl] = useState('https://arxiv.org/pdf/quant-ph/0410100.pdf');
 
   const buttons = useSelector(state => _.get(state, 'setMaterial.materials'));
+  const user = useSelector(state => _.get(state, 'user.results'));
 
   function ButtonLeccion(props) {
     return (
-    <Button 
+    <Button
       className={styles.button}
       onClick={() => {setPdfUrl(`${proxyUrl}${props.toPdf}`)}}>
         {props.Text}
@@ -83,6 +100,7 @@ export default function Material(props) {
     );
   }
 
+  if (user)
   return (
     <Grid container spacing={3}>
       {/* Listado de materias */}
@@ -97,15 +115,26 @@ export default function Material(props) {
         </div>
         <Iframe src={pdfUrl}></Iframe>
       </Grid>
-      <Grid item xs>      
+      <Grid item xs> 
         <Grid container spacing={3} className={styles.books}>
-          <Grid item>
+          <Grid item >
             {buttons.map((item, index) => (<ButtonLeccion key={index} Text={item.name} toPdf={item.link}/>)) }
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   )
+  else
+  return (
+    <div className={styles.blockedContainer}>
+      <Typography className={styles.blockedText}>
+        DEBES INICIAR SESIÓN PARA ACCEDER A LOS MATERIALES DE ESTUDIO
+      </Typography>
+      <Button onClick={() => {history.push('/signin')}} className={styles.button}>
+        INICIAR SESIÓN
+      </Button>
+    </div>
+  );
 }
 
 
